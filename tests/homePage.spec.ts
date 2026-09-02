@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/pageFixtures'
+import { type CartPage } from '../pages/cartPage';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://demoblaze.com/');
@@ -27,13 +28,14 @@ test('demoblaze has visible logo.', async ({ homePage }) => {
 });
 
 //5
-test('NAVBAR LINKS COUNT.', async ({ homePage }) => {
-    await expect(homePage.navigationLinks).toHaveCount(8)
+test('NAVBAR LINKS COUNT.', {tag: '@smoke'}, async ({ homePage }) => {
+    await expect(homePage.navigationLinks).toHaveCount(6)
 });
 
 //6
-test('NAVBAR LINKS TEXT.', async ({ page, homePage }) => {
-    const expectedTexts = [
+test('NAVBAR LINKS TEXT - FAILED TEST.', {tag: '@smoke'}, async ({ page, homePage }) => {
+    await test.step('Check navbar links test.', async () => {
+         const expectedTexts = [
         'Home',
         'Contact',
         'About us',
@@ -43,6 +45,7 @@ test('NAVBAR LINKS TEXT.', async ({ page, homePage }) => {
     ];
 
     await expect(homePage.navigationLinks).toHaveText(expectedTexts);
+    });
 });
 //7 and 8
 test('CONTACT MODAL OPENS.', async ({ page, homePage }) => {
@@ -75,16 +78,23 @@ test('Enter contact field value.', async ({ homePage }) => {
 
 test('Select cellPhones and check they are present in grid.', async ({ homePage }) => {
     const productNames = ['Samsung galaxy s6', 'Nokia lumia 1520', 'Nexus 6'];
+    let cartPage: CartPage;
 
-    for (const prodName of productNames) {
-        const cellPhoneInfoPage = await homePage.clickProduct(prodName);
-        await cellPhoneInfoPage.clickAddToCartButtonAndGoBack();
-    }
+    await test.step('Add products to cart', async () => {
+        for (const prodName of productNames) {
+            const cellPhoneInfoPage = await homePage.clickProduct(prodName);
+            await cellPhoneInfoPage.clickAddToCartButtonAndGoBack();
+        }
+    });
 
-    const cartPage = await homePage.openCartPage();
+    await test.step('Open cart page', async () => {
+        cartPage = await homePage.openCartPage();
+    });
 
-    for (const productName of productNames) {
-        const productRow = cartPage.productsTable.rowByProductName(productName);
-        await expect(productRow.title).toHaveText(productName);
-    }
+    await test.step('Check products in cart', async () => {
+        for (const productName of productNames) {
+            const productRow = cartPage.productsTable.rowByProductName(productName);
+            await expect(productRow.title).toHaveText(productName);
+        }
+    });
 });

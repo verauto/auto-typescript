@@ -20,6 +20,6 @@ export class BasePage {
         this.cartButton = page.locator('#cartur');
         this.logInButton = page.locator('#login2');
         this.signUpButton = page.locator('[data-target="#signInModal"]');
-        this.navigationLinks = page.locator('.navbar-nav.ml-auto li');
+        this.navigationLinks = page.locator('.navbar-nav.ml-auto a.nav-link:visible');
     }
 }
