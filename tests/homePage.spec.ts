@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/pageFixtures'
 import { type CartPage } from '../pages/cartPage';
+import { faker } from '@faker-js/faker';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://demoblaze.com/');
@@ -66,9 +67,9 @@ test('CONTACT MODAL OPENS.', async ({ page, homePage }) => {
 test('Enter contact field value.', async ({ homePage }) => {
 
     const contactModal = await homePage.openContactModal();
-    const message = 'Can you give me an advice?';
-    const email = 'demo@email.com';
-    const name = 'Jack';
+    const message = faker.lorem.sentence();;
+    const email = faker.internet.email();
+    const name = faker.person.fullName();
     await contactModal.fillContactForm(email, name, message);
 
     await expect(contactModal.emailInput).toHaveValue(email);
