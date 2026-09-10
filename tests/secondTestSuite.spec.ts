@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 test.describe.configure({ mode: 'parallel' });
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://demoblaze.com/');
+    await page.goto('/');
 });
 
 test('Enter contact field value.', async ({ homePage }) => {

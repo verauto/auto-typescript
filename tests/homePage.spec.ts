@@ -3,7 +3,7 @@ import { type CartPage } from '../pages/cartPage';
 import { faker } from '@faker-js/faker';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://demoblaze.com/');
+    await page.goto('/');
 });
 
 test('demoblaze has title.', async ({ page }) => {
@@ -29,30 +29,30 @@ test('demoblaze has visible logo.', async ({ homePage }) => {
 });
 
 //5
-test('NAVBAR LINKS COUNT.', {tag: '@smoke'}, async ({ homePage }) => {
+test('NAVBAR LINKS COUNT.', { tag: '@smoke' }, async ({ homePage }) => {
     await expect(homePage.navigationLinks).toHaveCount(6)
 });
 
 //6
-test('NAVBAR LINKS TEXT - FAILED TEST.', {tag: '@smoke'}, async ({ page, homePage }) => {
+test('NAVBAR LINKS TEXT - FAILED TEST.', { tag: '@smoke' }, async ({ page, homePage }) => {
     await test.step('Check navbar links test.', async () => {
-         const expectedTexts = [
-        'Home',
-        'Contact',
-        'About us',
-        'Cart',
-        'Log in',
-        'Sign up'
-    ];
+        const expectedTexts = [
+            'Home',
+            'Contact',
+            'About us',
+            'Cart',
+            'Log in',
+            'Sign up'
+        ];
 
-    await expect(homePage.navigationLinks).toHaveText(expectedTexts);
+        await expect(homePage.navigationLinks).toHaveText(expectedTexts);
     });
 });
 //7 and 8
 test('CONTACT MODAL OPENS.', async ({ page, homePage }) => {
 
     await homePage.openContactModal();
-
+    page.screenshot({ path: 'screeenshots/contactModal.png' })
     await expect(homePage.contactModal.title).toBeVisible();
     await expect(homePage.contactModal.emailInput).toBeVisible();
     await expect(homePage.contactModal.nameInput).toBeVisible();
