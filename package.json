@@ -7,12 +7,17 @@
     "headed": "playwright test --headed",
     "ui": "playwright test --ui",
     "debug": "playwright test --debug",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "po-test-chromium:dev": "cross-env TEST_ENV=dev playwright test tests/homePage.spec.ts --project=chromium",
+    "po-test-chromium:qa": "cross-env TEST_ENV=qa playwright test tests/homePage.spec.ts --project=chromium",
+    "po-test-firefox": "playwright test tests/homePage.spec.ts --project=firefox",
+    "po-test-all": "npm run po-test-chromium:dev && npm run po-test-firefox"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",
     "@playwright/test": "^1.62.0",
     "@types/node": "^26.1.2",
+    "cross-env": "^10.1.0",
     "typescript": "^7.0.2"
   },
   "dependencies": {

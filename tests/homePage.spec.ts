@@ -70,10 +70,10 @@ test('Enter contact field value.', async ({ homePage }) => {
     const message = faker.lorem.sentence();;
     const email = faker.internet.email();
     const name = faker.person.fullName();
-    await contactModal.fillContactForm(email, name, message);
+    await contactModal.fillContactForm(process.env.TEST_USER_EMAIL!, process.env.TEST_USER_PASSWORD!, message);
 
-    await expect(contactModal.emailInput).toHaveValue(email);
-    await expect(contactModal.nameInput).toHaveValue(name);
+    await expect(contactModal.emailInput).toHaveValue(process.env.TEST_USER_EMAIL!);
+    await expect(contactModal.nameInput).toHaveValue(process.env.TEST_USER_PASSWORD!);
     await expect(contactModal.messageInput).toHaveValue(message);
 });
 

@@ -1,4 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+const testEnv = process.env.TEST_ENV ?? 'dev';
+const envFile = `.env.${testEnv}`;
+
+dotenv.config({ path: path.resolve(__dirname, envFile)});
 
 export default defineConfig({
   // Tells Playwright where test files are located.
@@ -19,7 +26,7 @@ export default defineConfig({
   fullyParallel: true,
   
   use: {
-    baseURL: 'https://demoblaze.com/',
+    baseURL: process.env.URL,
     trace: 'on-first-retry',
     video: 'off'
   },
