@@ -1,8 +1,16 @@
 name: Playwright Tests
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Which tests to run'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - all
 
 jobs:
   test:
@@ -11,6 +19,8 @@ jobs:
     env:
       TEST_ENV: dev
       URL: https://demoblaze.com
+      TEST_USER_EMAIL: demoemail@gmail.com
+      TEST_USER_PASSWORD: welcome@1
 
     steps:
       - name: Checkout repository
@@ -27,7 +37,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Run smoke tests
+        if: ${{ github.event.inputs.test_suite == 'smoke' }}
+        run: npm run smoke
+
+      - name: Run all tests
+        if: ${{ github.event.inputs.test_suite == 'all' }}
         run: npm test
 
       - name: Upload Playwright report
