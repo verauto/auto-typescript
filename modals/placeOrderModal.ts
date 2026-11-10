@@ -6,7 +6,5 @@ readonly orderModalLabel : Locator;
     constructor(page: Page) {
         this.page = page;
         this.orderModalLabel = page.locator('#orderModalLabel');
-   
-   
     }
 }
